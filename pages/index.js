@@ -4,21 +4,13 @@ import Todo from "../components/Todo.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
 import PopupWithForm from "../components/PopupWithForm.js";
-import TodoCounter from "../components/ToDoCounter.js";
+import TodoCounter from "../components/TodoCounter.js";
 
 const addTodoButton = document.querySelector(".button_action_add");
 const addTodoPopupEl = document.querySelector("#add-todo-popup");
 const addTodoForm = addTodoPopupEl.querySelector(".popup__form");
 
 const todoCounter = new TodoCounter(initialTodos, ".counter__text");
-
-// Open/Close Modals
-
-function handleEscClose(evt) {
-  if (evt.key === "Escape") {
-    this.close();
-  }
-}
 
 function handleCheck(completed) {
   todoCounter.updateCompleted(completed);
@@ -55,15 +47,17 @@ const addTodoPopup = new PopupWithForm({
     const name = inputValues.name;
     const dateInput = inputValues.date;
 
-    const date = new Date(dateInput);
-    date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+    const date = dateInput ? new Date(dateInput) : null;
+    if (date) {
+      date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+    }
 
     const id = uuidv4();
     const todoData = { name, date, id };
 
     const todoElement = generateTodo(todoData);
     section.addItem(todoElement);
-    +todoCounter.updateTotal(true);
+    todoCounter.updateTotal(true);
 
     newTodoValidator.resetValidation();
     addTodoPopup.close();

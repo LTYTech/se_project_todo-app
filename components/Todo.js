@@ -28,6 +28,11 @@ class Todo {
   }
 
   _setDueDate() {
+    if (!this._data.date) {
+      this._todoDate.textContent = "";
+      return;
+    }
+
     const dueDate = new Date(this._data.date);
     if (!isNaN(dueDate)) {
       this._todoDate.textContent = `Due: ${dueDate.toLocaleString("en-US", {
